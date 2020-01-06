@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sentiment</title>
+
+        <!-- Compiled and minified CSS -->
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="static/materialize.min.css">
+        <link rel="stylesheet" type="text/css" href="static/chartist.min.css">
+        <link rel="stylesheet" type="text/css" href="static/chartist.min1.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="static/chartist.min.js"></script>
+        <script src="static/chartist.min1.js"></script>
+        <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" />
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+
+        <script src="static/jquery-3.1.1.min.js"></script>
+        <script src="static/jquery.min.js"></script>
+        <script src="static/materialize.min.js"></script>
+    </body>
+</html>

@@ -1,0 +1,119 @@
+{% extends 'main.html' %}
+{% block body %}
+<h3>Results for Twitter username @{{ username }}</h3>
+<h3>Results for Twitter username @{{ username1 }}</h3>
+<div>
+  Positive: {{ result.pos }}
+  <br>
+  Neutral: {{ result.neut }}
+  <br>
+  Negative: {{ result.neg }}
+  <br>
+  Positive: {{ result1.pos1 }}
+  <br>
+  Neutral: {{ result1.neut1 }}
+  <br>
+  Negative: {{ result1.neg1 }}
+  
+
+  <div class="ct-chart ct-perfect-fourth"></div>
+  <div class="ct-chart1 ct-perfect-fourth1"></div>
+  <h4>Positive tweets</h4>
+  {% for tweet in result.positive_tweets %}
+  <li>{{ tweet }}</li>
+  {% endfor %}
+  <h4>Neutral tweets</h4>
+  {% for tweet in result.neutral_tweets %}
+  <li>{{ tweet }}</li>
+  {% endfor %}
+  <h4>Negative tweets</h4>
+  {% for tweet in result.negative_tweets %}
+  <li>{{ tweet }}</li>
+  {% endfor %}
+
+  
+  
+  
+  <h4>Positive tweets</h4>
+  {% for tweet in result1.positive_tweets1 %}
+  <li>{{ tweet }}</li>
+  {% endfor %}
+  <h4>Neutral tweets</h4>
+  {% for tweet in result1.neutral_tweets1 %}
+  <li>{{ tweet }}</li>
+  {% endfor %}
+  <h4>Negative tweets</h4>
+  {% for tweet in result1.negative_tweets1 %}
+  <li>{{ tweet }}</li>
+  {% endfor %}
+
+  <script>
+    var data = {
+      // A labels array that can contain any sort of values
+        labels: [ 'Positive', 'Neutral','Negative'],
+      series: [{{result.pos}}, {{result.neut}},{{result.neg}}]
+      // Our series array that contains series objects or in this case series data arrays
+      
+      
+      // Our series array that contains series objects or in this case series data arrays
+      
+    };
+    var data1 = {
+      // A labels array that can contain any sort of values
+
+        labels: ['Positive', 'Neutral','Negative'],
+      series: [{{result1.pos1}}, {{result1.neut1}},{{result1.neg1}}]
+      // Our series array that contains series objects or in this case series data arrays
+      
+      
+      // Our series array that contains series objects or in this case series data arrays
+      
+    };
+
+ 
+
+    // Create a new line chart object where as first parameter we pass in a selector
+    // that is resolving to our chart container element. The Second parameter
+    // is the actual data object.
+    // new Chartist.Line('.ct-chart', data);
+    var sum = function (a, b) {
+      return a + b
+    };
+    var myChart = new Chartist.Pie('.ct-chart', data, {
+      //   labelInterpolationFnc: function(value) {
+      //     return Math.round(value / data.series.reduce(sum) * 100) + '%';
+      //   }
+    });
+    var myChart1 = new Chartist.Pie('.ct-chart1', data1, {
+      //   labelInterpolationFnc: function(value) {
+      //     return Math.round(value / data.series.reduce(sum) * 100) + '%';
+      //   }
+    });
+    var src_result = [{{result.pos}}, {{result.neut}}, {{result.neg}}],series = []
+    
+    setInterval(function(){
+        $.getJSON('/refreshData', {
+        }, function(data) {
+          // src_Labels = data.sLabel;
+          // src_Data = data.sData;
+          src_result = data.sResult;
+        });
+        console.log(src_result)
+        myChart.data.series = src_result;
+        myChart.update();
+      },1000);
+    var src_result1 = [{{result1.pos1}}, {{result1.neut1}}, {{result1.neg1}}],series1 = []
+    setInterval(function(){
+        $.getJSON('/refreshData1', {
+        }, function(data1) {
+          // src_Labels = data.sLabel;
+          // src_Data = data.sData;
+          src_result1 = data1.sResult1;
+        });
+        console.log(src_result1)
+        myChart1.data1 = src_result1;
+        myChart1.update();
+      },1000);
+  </script>
+</div>
+{% endblock %}
