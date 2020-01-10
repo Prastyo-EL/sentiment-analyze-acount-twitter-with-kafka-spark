@@ -70,6 +70,7 @@ def sentiment(tweet):
 #     return SentimentScore(positive_tweets, negative_tweets, neutral_tweets,positive_tweets1, negative_tweets1, neutral_tweets1)
 
 def main():
+    #streamingkan hasil sentiment ke spark
     parser = argparse.ArgumentParser(description="Gets twitter data from Kafka and work with it.")
     parser.add_argument("broker", nargs=1, help="broker name")
     parser.add_argument("topics", nargs="+", help="topics list")

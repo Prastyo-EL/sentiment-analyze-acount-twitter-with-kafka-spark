@@ -51,6 +51,7 @@ dictionaryP = Dictionary('positive-words.txt')
 def sentiment(tweet):
     negative_score = 0
     positive_score = 0
+    #menentukan sentiment dengan nltk
     tokenizer = nltk.tokenize.TweetTokenizer()
     tweet_words = tokenizer.tokenize(tweet)
     for word in tweet_words:
@@ -73,7 +74,7 @@ def sentiment_analysis(tweets):
     negative_tweets1 = []
     positive_tweets1 = []
     neutral_tweets1 = []
-
+    #menampung tweet sentiment negative, positive dan neutral
     for tweet in tweets:
         res = sentiment(tweet['text'])
         if res == ('negative' and 'negative1'):
@@ -90,13 +91,14 @@ def sentiment_analysis(tweets):
 @app.route("/", methods=["POST","GET"])
 def root():
     global list_result,username,username1,username2,username3,username4
-    if request.method == "POST":
+    if request.method == "POST":#mengirim 2 akun twitter
         username = request.form['twitter_username']
         user_timeline = twitter.get_user_timeline(screen_name=username, count = 20)
         result=sentiment_analysis(user_timeline)
         username1 = request.form['twitter_username1']
         user_timeline1 = twitter.get_user_timeline(screen_name=username1, count = 20)
         result1=sentiment_analysis(user_timeline1)
+        #menampung hasil tweet ke kafka
         for tweet in user_timeline:
             try:
                 client = SimpleClient("localhost:9092")
@@ -133,6 +135,7 @@ def root():
     else:
         return render_template("index.html")
 
+#update data ketika ada perubahan pada akun twitter
 @app.route('/refreshData')
 def refresh_graph_data():
     global list_result,username
